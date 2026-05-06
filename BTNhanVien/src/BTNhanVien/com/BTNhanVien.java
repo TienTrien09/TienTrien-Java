@@ -1,15 +1,18 @@
 package BTNhanVien.com;
 
+import java.util.Scanner;
+
 public class BTNhanVien {
+    // Các thuộc tính
     private String ho;
     private String ten;
     private int soSP;
 
-    // Constructor
+    // Hàm khởi tạo (Constructor)
     public BTNhanVien(String ho, String ten, int soSP) {
         this.ho = ho;
         this.ten = ten;
-
+        // Kiểm tra số sản phẩm lớn hơn hoặc bằng 0
         if (soSP < 0) {
             this.soSP = 0;
         } else {
@@ -17,7 +20,7 @@ public class BTNhanVien {
         }
     }
 
-    // Getter & Setter
+    // Các hàm lấy và gán giá trị (Getters & Setters)
     public String getHo() {
         return ho;
     }
@@ -46,38 +49,79 @@ public class BTNhanVien {
         }
     }
 
-    // Hàm tính đơn giá
-    private int getDonGia() {
-        if (soSP < 100) {
-            return 5;
-        } else if (soSP < 200) {
-            return 6;
-        } else {
-            return 7;
-        }
-    }
-
     // Hàm tính lương
-    public int getLuong() {
-        return soSP * getDonGia();
+    public double getLuong() {
+        double donGia = 0;
+        
+        if (soSP >= 600) {
+            donGia = 0.65;
+        } else if (soSP >= 400) {
+            donGia = 0.6;
+        } else if (soSP >= 200) {
+            donGia = 0.55;
+        } else if (soSP >= 1) {
+            donGia = 0.5;
+        }
+        
+        return soSP * donGia;
     }
 
-    // Hiển thị thông tin
-    public void hienThi() {
-        System.out.println("Họ: " + ho);
-        System.out.println("Tên: " + ten);
-        System.out.println("Số SP: " + soSP);
-        System.out.println("Lương: " + getLuong());
+    // Hàm kiểm tra lớn hơn (Đã sửa NhanVien thành BTNhanVien)
+    public boolean lonHon(BTNhanVien nv2) {
+        return this.soSP > nv2.soSP;
     }
 
-    // 🔥 THÊM MAIN ĐỂ CHẠY
+    // Hàm main để chạy chương trình
     public static void main(String[] args) {
-        BTNhanVien nv1 = new BTNhanVien("Nguyen", "An", 150);
-        nv1.hienThi();
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("---------------");
+        // 1. Nhập thông tin cho 2 nhân viên (Đã sửa NhanVien thành BTNhanVien)
+        System.out.println("--- NHẬP THÔNG TIN NHÂN VIÊN 1 ---");
+        System.out.print("Nhập họ: ");
+        String ho1 = scanner.nextLine();
+        System.out.print("Nhập tên: ");
+        String ten1 = scanner.nextLine();
+        System.out.print("Nhập số sản phẩm: ");
+        int soSP1 = Integer.parseInt(scanner.nextLine());
+        BTNhanVien nv1 = new BTNhanVien(ho1, ten1, soSP1);
 
-        BTNhanVien nv2 = new BTNhanVien("Tran", "Binh", -10);
-        nv2.hienThi();
+        System.out.println("\n--- NHẬP THÔNG TIN NHÂN VIÊN 2 ---");
+        System.out.print("Nhập họ: ");
+        String ho2 = scanner.nextLine();
+        System.out.print("Nhập tên: ");
+        String ten2 = scanner.nextLine();
+        System.out.print("Nhập số sản phẩm: ");
+        int soSP2 = Integer.parseInt(scanner.nextLine());
+        BTNhanVien nv2 = new BTNhanVien(ho2, ten2, soSP2);
+
+        // 2. Tính và xuất lương của từng nhân viên
+        System.out.println("\n================ BẢNG LƯƠNG ================");
+        System.out.println("Lương của " + nv1.getHo() + " " + nv1.getTen() + " là: " + nv1.getLuong());
+        System.out.println("Lương của " + nv2.getHo() + " " + nv2.getTen() + " là: " + nv2.getLuong());
+
+        // 3. So sánh và xuất thông báo
+        System.out.println("\n============= SO SÁNH SỐ SẢN PHẨM =============");
+        
+        // Cách 1: Không dùng hàm lonHon (So sánh trực tiếp thuộc tính soSP)
+        System.out.println("[Cách 1 - Không dùng hàm lonHon]");
+        if (nv1.getSoSP() > nv2.getSoSP()) {
+            System.out.println("Nhân viên 1 có nhiều hơn Nhân viên 2: " + (nv1.getSoSP() - nv2.getSoSP()) + " sản phẩm.");
+        } else if (nv1.getSoSP() < nv2.getSoSP()) {
+            System.out.println("Nhân viên 2 có nhiều hơn Nhân viên 1: " + (nv2.getSoSP() - nv1.getSoSP()) + " sản phẩm.");
+        } else {
+            System.out.println("Hai nhân viên có số sản phẩm bằng nhau.");
+        }
+
+        // Cách 2: Dùng hàm lonHon
+        System.out.println("\n[Cách 2 - Dùng hàm lonHon]");
+        if (nv1.lonHon(nv2)) {
+            System.out.println("Nhân viên 1 có nhiều hơn Nhân viên 2: " + (nv1.getSoSP() - nv2.getSoSP()) + " sản phẩm.");
+        } else if (nv2.lonHon(nv1)) {
+            System.out.println("Nhân viên 2 có nhiều hơn Nhân viên 1: " + (nv2.getSoSP() - nv1.getSoSP()) + " sản phẩm.");
+        } else {
+            System.out.println("Hai nhân viên có số sản phẩm bằng nhau.");
+        }
+
+        scanner.close();
     }
 }
