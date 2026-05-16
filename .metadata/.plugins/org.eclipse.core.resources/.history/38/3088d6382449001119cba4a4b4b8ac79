@@ -1,0 +1,107 @@
+package BTNhanVien.com;
+
+public class NhanVien {
+    private String ho;
+    private String ten;
+    private int soSP;
+
+    // Constructor
+    public NhanVien(String ho, String ten, int soSP) {
+        this.ho = ho;
+        this.ten = ten;
+        this.soSP = (soSP < 0) ? 0 : soSP;
+    }
+
+    // Getter & Setter
+    public String getHo() { return ho; }
+    public String getTen() { return ten; }
+    public int getSoSP() { return soSP; }
+
+    public void setSoSP(int soSP) {
+        this.soSP = (soSP < 0) ? 0 : soSP;
+    }
+
+    // 🔥 Đơn giá theo đề
+    public double getDonGia() {
+        if (soSP >= 1 && soSP <= 199) return 0.5;
+        else if (soSP <= 399) return 0.55;
+        else if (soSP <= 599) return 0.6;
+        else return 0.65;
+    }
+
+    // Tính lương
+    public double getLuong() {
+        return soSP * getDonGia();
+    }
+
+    // Hiển thị
+    public void hienThi() {
+        System.out.println(ho + " " + ten +
+                " | SoSP: " + soSP +
+                " | Luong: " + getLuong());
+    }
+
+    // 🔥 Hàm so sánh theo đề
+    public boolean lonHon(NhanVien nv2) {
+        return this.soSP > nv2.soSP;
+    }
+}
+package BTNhanVien.com;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Nhập nhân viên 1
+        System.out.println("Nhap nhan vien 1:");
+        System.out.print("Ho: ");
+        String ho1 = sc.nextLine();
+        System.out.print("Ten: ");
+        String ten1 = sc.nextLine();
+        System.out.print("So SP: ");
+        int sp1 = sc.nextInt();
+        sc.nextLine();
+
+        // Nhập nhân viên 2
+        System.out.println("\nNhap nhan vien 2:");
+        System.out.print("Ho: ");
+        String ho2 = sc.nextLine();
+        System.out.print("Ten: ");
+        String ten2 = sc.nextLine();
+        System.out.print("So SP: ");
+        int sp2 = sc.nextInt();
+
+        // Tạo đối tượng
+        NhanVien nv1 = new NhanVien(ho1, ten1, sp1);
+        NhanVien nv2 = new NhanVien(ho2, ten2, sp2);
+
+        // Xuất lương
+        System.out.println("\n--- Ket qua ---");
+        nv1.hienThi();
+        nv2.hienThi();
+
+        // 🔥 Cách 1: dùng hàm lonHon
+        System.out.println("\nSo sanh (dung ham lonHon):");
+        if (nv1.lonHon(nv2)) {
+            System.out.println("NV1 nhieu hon NV2: " + (nv1.getSoSP() - nv2.getSoSP()) + " SP");
+        } else if (nv2.lonHon(nv1)) {
+            System.out.println("NV2 nhieu hon NV1: " + (nv2.getSoSP() - nv1.getSoSP()) + " SP");
+        } else {
+            System.out.println("Hai nhan vien bang nhau");
+        }
+
+        // 🔥 Cách 2: không dùng hàm
+        System.out.println("\nSo sanh (khong dung ham):");
+        if (nv1.getSoSP() > nv2.getSoSP()) {
+            System.out.println("NV1 nhieu hon NV2: " + (nv1.getSoSP() - nv2.getSoSP()) + " SP");
+        } else if (nv2.getSoSP() > nv1.getSoSP()) {
+            System.out.println("NV2 nhieu hon NV1: " + (nv2.getSoSP() - nv1.getSoSP()) + " SP");
+        } else {
+            System.out.println("Hai nhan vien bang nhau");
+        }
+
+        sc.close();
+    }
+}

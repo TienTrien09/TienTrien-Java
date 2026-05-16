@@ -1,0 +1,48 @@
+package BTNhanVien.com;
+
+public class NhanVien {
+    private String ho;
+    private String ten;
+    private int soSP;
+
+    // Constructor
+    public NhanVien(String ho, String ten, int soSP) {
+        this.ho = ho;
+        this.ten = ten;
+        this.soSP = (soSP < 0) ? 0 : soSP;
+    }
+
+    // Getter & Setter
+    public String getHo() { return ho; }
+    public String getTen() { return ten; }
+    public int getSoSP() { return soSP; }
+
+    public void setSoSP(int soSP) {
+        this.soSP = (soSP < 0) ? 0 : soSP;
+    }
+
+    // 🔥 Đơn giá theo đề
+    public double getDonGia() {
+        if (soSP >= 1 && soSP <= 199) return 0.5;
+        else if (soSP <= 399) return 0.55;
+        else if (soSP <= 599) return 0.6;
+        else return 0.65;
+    }
+
+    // Tính lương
+    public double getLuong() {
+        return soSP * getDonGia();
+    }
+
+    // Hiển thị
+    public void hienThi() {
+        System.out.println(ho + " " + ten +
+                " | SoSP: " + soSP +
+                " | Luong: " + getLuong());
+    }
+
+    // 🔥 Hàm so sánh theo đề
+    public boolean lonHon(NhanVien nv2) {
+        return this.soSP > nv2.soSP;
+    }
+}
